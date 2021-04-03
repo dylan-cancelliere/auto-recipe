@@ -20,7 +20,7 @@
 .env.production.local
 
 # secrets
-/client/src/secrets.js
+secrets.js
 
 npm-debug.log*
 yarn-debug.log*
