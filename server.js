@@ -28,6 +28,25 @@ const getIngredients = () => {
 	return result;
 };
 
+const parseSearchResults = (results) => {
+	console.log('init:', results);
+	let data = results['hits'];
+	let parsedData = {};
+	console.log('step 1:', data);
+
+	for (let i = 0; i < 10; i++) {
+		let recipe = data[i]['recipe'];
+		parsedData[recipe['label']] = {
+			ingredients: recipe['ingredientLines'],
+			cookTime: recipe['totalTime'],
+			mealType: recipe['mealType'],
+			link: recipe['url'],
+		};
+	}
+
+	return parsedData;
+};
+
 const ingredients = getIngredients();
 
 app.use(express.json());
@@ -52,8 +71,7 @@ app.get('/search/:query', async (request, response) => {
 			data.push(chunk);
 		}).on('end', () => {
 			let result = JSON.parse(Buffer.concat(data));
-			console.log(result);
-			response.send(result);
+			response.send(parseSearchResults(result));
 		});
 	});
 
