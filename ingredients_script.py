@@ -102,13 +102,13 @@ def build_tasty_database(filename):
     with open(filename) as json_file:
         data = json.load(json_file)
         database = {}
-        recipe_set = set()
+        recipe_set = set()  
         for ingredient in data:
             database[ingredient] = set()
             for recipe in data[ingredient]:
                 recipe_set.add(recipe['name'])
                 database[ingredient].add(recipe['name'])
-    return
+    return database
 
 
 def main():
