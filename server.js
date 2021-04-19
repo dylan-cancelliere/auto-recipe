@@ -68,9 +68,13 @@ const sortRecipesByFrequency = (recipeArray) => {
 };
 
 const getPantryRecipes = (pantryData) => {
-	const recipeArray = buildRecipeArray(pantryData);
-	const recipes = sortRecipesByFrequency(recipeArray);
-	return;
+	const recipeArray = sortRecipesByFrequency(buildRecipeArray(pantryData));
+	const recipeData = {};
+
+	recipeArray.forEach((recipe) => {
+		recipeData[recipe] = recipes[recipe];
+	});
+	return recipeData;
 };
 
 const RECIPES_FILE_NAME = 'tasty_recipes_json.txt';
@@ -88,7 +92,9 @@ app.put('/pantry', (req, res) => {
 	res.sendStatus(200);
 });
 
-app.get('/pantry', (req, res) => {});
+app.get('/pantry', (req, res) => {
+	res.send(getPantryRecipes(pantry[req.body.user]));
+});
 
 app.get('/search/:query', (req, res) => {});
 
