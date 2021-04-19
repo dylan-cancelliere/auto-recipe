@@ -84,7 +84,6 @@ const RECIPES_FILE_NAME = 'tasty_recipes_json.txt';
 const ingredientJson = getIngredientJson();
 const ingredients = getIngredients();
 const [recipeMap, recipes] = buildRecipeMap(ingredientJson);
-console.log('Recipes:', recipes);
 const pantry = {};
 
 app.use(express.json());
@@ -92,13 +91,11 @@ app.use(express.json());
 app.put('/pantry/:user/:pantry', (req, res) => {
 	let data = req.params.pantry;
 	data = data.replace(/\s/g, '').split(',');
-	console.log(data);
 	pantry[req.params.user] = data;
 	res.sendStatus(200);
 });
 
 app.get('/pantry/:user', (req, res) => {
-	console.log('Test:', req.params.user);
 	let data = getPantryRecipes(pantry[req.params.user]);
 	res.send(data);
 });
