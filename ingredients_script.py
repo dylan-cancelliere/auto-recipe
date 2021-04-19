@@ -1,6 +1,7 @@
+import ast
+import json
 import re
 import requests
-import json
 
 
 def has_numbers(string):
@@ -18,6 +19,19 @@ def update_ingredients():
     with open('ingredients_list.txt', 'w') as file:
         file.write(str(food))
     print('Done!')
+
+
+# Algorithm credits to https://gist.github.com/mbrzusto/23fe728966247f25f3ec
+def recipes_raw_to_json(filename):
+    file_read = open(filename)
+    file_write = open('tasty_recipes_json.txt', 'w')
+
+    for line in file_read:
+        json_dat = json.dumps(ast.literal_eval(line))
+        dict_dat = json.loads(json_dat)
+        json.dump(dict_dat, file_write)
+        file_write.write("\n")
+    print('Recipes raw to JSON finished')
 
 
 def read_file_to_set(filename):
@@ -46,7 +60,7 @@ def tasty_ingredient_scraper():
     with open('tasty_ingredients.txt', 'w') as file:
         file.write(str(ingredients))
 
-    print('Done!')
+    print('Ingredient scraper finished')
     return ingredients
 
 
@@ -64,20 +78,37 @@ def get_num_tasty_recipes(url):
 
 def tasty_recipe_scraper(ingredients):
     base_url = 'https://tasty.co/ingredient/'
-    data = []
+    data = {}
     for ingredient in ingredients:
         num_recipes = get_num_tasty_recipes(base_url + ingredient)
+        recipes = []
         try:
             int(num_recipes)
             for x in range(0, int(num_recipes), 100):
                 url = f'https://tasty.co/api/recipes/search?size=100&from={x}&primary_terms={ingredient}&flag=ingredient&in_unit=true'
-                data.append(requests.get(url).json())
+                recipes += requests.get(url).json()['items']
+            data[ingredient] = recipes
         except ValueError:
             print("Couldn't parse", (base_url + ingredient))
-        print("Parsed:", ingredient)
 
     with open('tasty_recipes_raw.txt', 'w') as file:
-        file.write(str(data))
+        file.write(str(data).replace('True', '"True"').replace('False', '"False"').replace('None', '"None"').replace('&amp;', '&'))
+    print('Recipe scraper finished')
+    recipes_raw_to_json('tasty_recipes_raw.txt')
+
+
+# POC for node server, for visualization purposes only
+def build_tasty_database(filename):
+    with open(filename) as json_file:
+        data = json.load(json_file)
+        database = {}
+        recipe_set = set()
+        for ingredient in data:
+            database[ingredient] = set()
+            for recipe in data[ingredient]:
+                recipe_set.add(recipe['name'])
+                database[ingredient].add(recipe['name'])
+    return
 
 
 def main():
@@ -88,5 +119,6 @@ def main():
 if __name__ == '__main__':
     # main()
     # update_ingredients()
-    tasty_recipe_scraper(tasty_ingredient_scraper())
-
+    # tasty_recipe_scraper(tasty_ingredient_scraper())
+    # recipes_raw_to_json('tasty_recipes_raw.txt')
+    build_tasty_database('tasty_recipes_json.txt')
