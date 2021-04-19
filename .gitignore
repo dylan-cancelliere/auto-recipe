@@ -28,6 +28,7 @@ tasty_ingredients_raw.txt
 tasty_ingredients.txt
 tasty_recipes_raw.txt
 ingredients_list.txt
+tasty_recipes_json.txt
 
 npm-debug.log*
 yarn-debug.log*
