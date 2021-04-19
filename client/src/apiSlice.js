@@ -53,6 +53,7 @@ export const getPantry = createAsyncThunk(
 		});
 
 		response = await response.json();
+		console.log('Response:', response);
 		return response;
 	}
 );

@@ -30,33 +30,34 @@ const getIngredientJson = () => {
 
 const buildRecipeMap = (data) => {
 	const database = {};
-	const recipes = {};
+	const recipeObject = {};
 
 	Object.keys(data).forEach((ingredient) => {
 		database[ingredient] = new Set();
 		data[ingredient].forEach((recipe) => {
-			if (!recipe['name'] in recipes) recipes[recipe['name']] = recipe;
+			if (!(recipe['name'] in recipeObject))
+				recipeObject[recipe['name']] = recipe;
 			database[ingredient].add(recipe['name']);
 		});
 	});
-	return [database, recipes];
+	return [database, recipeObject];
 };
 
 const buildRecipeArray = (pantryData) => {
 	// data is list of ingredients in pantry
-	let recipes = [];
+	let data = [];
 	pantryData.forEach((ingredient) => {
 		if (recipeMap[ingredient])
-			recipes.concat(Array.from(recipeMap[ingredient]));
+			data = data.concat(Array.from(recipeMap[ingredient]));
 	});
-	return recipes;
+	return data;
 };
 
 const sortRecipesByFrequency = (recipeArray) => {
 	let frequency = {};
 
 	recipeArray.forEach((recipe) => {
-		frequency[value] = 0;
+		frequency[recipe] = 0;
 	});
 
 	let uniques = recipeArray.filter((recipe) => {
@@ -83,6 +84,7 @@ const RECIPES_FILE_NAME = 'tasty_recipes_json.txt';
 const ingredientJson = getIngredientJson();
 const ingredients = getIngredients();
 const [recipeMap, recipes] = buildRecipeMap(ingredientJson);
+console.log('Recipes:', recipes);
 const pantry = {};
 
 app.use(express.json());
@@ -97,7 +99,8 @@ app.put('/pantry/:user/:pantry', (req, res) => {
 
 app.get('/pantry/:user', (req, res) => {
 	console.log('Test:', req.params.user);
-	res.send(getPantryRecipes(pantry[req.params.user]));
+	let data = getPantryRecipes(pantry[req.params.user]);
+	res.send(data);
 });
 
 app.get('/search/:query', (req, res) => {});
