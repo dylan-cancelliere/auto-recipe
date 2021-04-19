@@ -46,7 +46,8 @@ const buildRecipeArray = (pantryData) => {
 	// data is list of ingredients in pantry
 	let recipes = [];
 	pantryData.forEach((ingredient) => {
-		recipes.concat(Array.from(recipeMap[ingredient]));
+		if (recipeMap[ingredient])
+			recipes.concat(Array.from(recipeMap[ingredient]));
 	});
 	return recipes;
 };
@@ -81,8 +82,7 @@ const RECIPES_FILE_NAME = 'tasty_recipes_json.txt';
 
 const ingredientJson = getIngredientJson();
 const ingredients = getIngredients();
-const recipeMap,
-	recipes = buildRecipeMap(ingredientJson);
+const [recipeMap, recipes] = buildRecipeMap(ingredientJson);
 const pantry = {};
 
 app.use(express.json());

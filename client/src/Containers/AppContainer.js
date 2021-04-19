@@ -1,12 +1,19 @@
 import logo from '../logo.svg';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { recipeSearch, selectSearchResults } from '../apiSlice';
+import { setPantry, getPantry, selectPantryResults } from '../apiSlice';
 
-export function AppContainer() {
-	const searchResults = useSelector(selectSearchResults);
-	const [userInput, setUserInput] = useState('chicken');
+export function AppContainer(user) {
+	const pantryResults = useSelector(selectPantryResults);
+	const [userInput, setUserInput] = useState(
+		'chocolate, butter, sugar, eggs, vanilla-extract, flour, cocoa-powder, salt'
+	);
 	const dispatch = useDispatch();
+
+	const parseUserInput = (data) => {
+		data.replace(' ', '');
+		return data.toLowerCase().split(',');
+	};
 
 	return (
 		<div style={{ paddingBottom: '100px' }} className='App'>
@@ -18,16 +25,28 @@ export function AppContainer() {
 					style={{ maxWidth: '50%' }}
 				/>
 			</header>
-			<p>Enter some text</p>
+			<p>Add ingredients to pantry</p>
 			<input
 				value={userInput}
 				onChange={(e) => setUserInput(e.target.value)}
 			/>
-			<button onClick={() => dispatch(recipeSearch(userInput))}>
+			<button
+				onClick={() =>
+					dispatch(
+						setPantry({
+							user,
+							pantry: parseUserInput(userInput),
+						})
+					)
+				}>
 				Submit
 			</button>
+			<br /> <br /> <br /> <br />
+			<button onClick={() => dispatch(getPantry(user))}>
+				Get recipes
+			</button>
 			<p style={{ paddingBottom: '100px' }}>
-				{JSON.stringify(searchResults)}
+				{JSON.stringify(pantryResults)}
 			</p>
 		</div>
 	);
