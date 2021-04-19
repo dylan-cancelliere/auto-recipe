@@ -30,6 +30,9 @@ tasty_recipes_raw.txt
 ingredients_list.txt
 tasty_recipes_json.txt
 
+# vscode
+/.vscode
+
 npm-debug.log*
 yarn-debug.log*
 arn-error.log*
