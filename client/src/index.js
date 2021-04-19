@@ -25,7 +25,7 @@ const setCookie = (cname, value, days) => {
 };
 
 const handleNoCookies = () => {
-	if (getCookie('user') !== '')
+	if (getCookie('user') === '')
 		setCookie('user', Math.floor(Math.random() * 1000000), 30);
 };
 

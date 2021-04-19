@@ -22,13 +22,14 @@ export const recipeSearch = createAsyncThunk(
 export const setPantry = createAsyncThunk(
 	'api/setPantry',
 	async (pantry, thunkAPI) => {
-		const url = `${BASE_URL}/pantry`;
+		const url = `${BASE_URL}/pantry/${encodeURIComponent(
+			pantry.user
+		)}/${encodeURIComponent(pantry.pantry)}`;
+		console.log(
+			`Set URL: ${url}\nPantry: ${pantry.pantry}\nUser: ${pantry.user}`
+		);
 		let response = await fetch(url, {
 			method: 'PUT',
-			body: {
-				user: pantry.user,
-				pantry: pantry.pantry,
-			},
 			headers: {},
 		}).catch((error) => {
 			console.error('Error:', error);
@@ -42,10 +43,10 @@ export const setPantry = createAsyncThunk(
 export const getPantry = createAsyncThunk(
 	'api/getPantry',
 	async (user, thunkAPI) => {
-		const url = `${BASE_URL}/pantry`;
+		const url = `${BASE_URL}/pantry/${user}`;
+		console.log(`Get URL: ${url}\nUser: ${user}`);
 		let response = await fetch(url, {
 			method: 'GET',
-			body: { user },
 			headers: {},
 		}).catch((error) => {
 			console.error('Error:', error);

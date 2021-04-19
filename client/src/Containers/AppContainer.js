@@ -34,7 +34,7 @@ export function AppContainer(user) {
 				onClick={() =>
 					dispatch(
 						setPantry({
-							user,
+							user: user.user,
 							pantry: parseUserInput(userInput),
 						})
 					)
@@ -42,7 +42,7 @@ export function AppContainer(user) {
 				Submit
 			</button>
 			<br /> <br /> <br /> <br />
-			<button onClick={() => dispatch(getPantry(user))}>
+			<button onClick={() => dispatch(getPantry(user.user))}>
 				Get recipes
 			</button>
 			<p style={{ paddingBottom: '100px' }}>

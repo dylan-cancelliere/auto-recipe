@@ -87,13 +87,17 @@ const pantry = {};
 
 app.use(express.json());
 
-app.put('/pantry', (req, res) => {
-	pantry[req.body.user] = req.body.pantry;
+app.put('/pantry/:user/:pantry', (req, res) => {
+	let data = req.params.pantry;
+	data = data.replace(/\s/g, '').split(',');
+	console.log(data);
+	pantry[req.params.user] = data;
 	res.sendStatus(200);
 });
 
-app.get('/pantry', (req, res) => {
-	res.send(getPantryRecipes(pantry[req.body.user]));
+app.get('/pantry/:user', (req, res) => {
+	console.log('Test:', req.params.user);
+	res.send(getPantryRecipes(pantry[req.params.user]));
 });
 
 app.get('/search/:query', (req, res) => {});
