@@ -11,3 +11,27 @@ To run the app locally, follow these steps:
 6. Open a new terminal, navigate to the root directory and run `npm start`
 7. Open a browser of your choice and go to [localhost:3000](http://localhost:3000/)
 8. That's it! The app should be set up and you can browse around to your heart's content
+
+## Features
+There's still a ton of work to be done on the app, so here's a list of all the currently implemented features as well as some features I'd like to implement (eventually).
+
+Current features:
+- [x] Python script to dynamically pull recipes and ingredients from [tasty.co](https://tasty.co/)
+- [x] Algorithm to suggest recipes based on list of ingredients
+- [x] MaterialUI card view with recipe details
+- [x] User ID caching in browser cookies
+- [x] Simple MaterialUI design
+
+Eventual features:
+- [ ] Better looking UI
+- [ ] Pantry View
+- [ ] Add shopping list to card view
+- [ ] Ingredient selector
+- [ ] 'Infinite' scrolling
+- [ ] Keep track of recipes that a user tries
+  - [ ] Recommend more recipes based on what the user liked
+- [ ] Larger & more refined dataset
+  - [ ] Pull data from more sites
+- [ ] Properly hosted site, backend, and database instead of locally hosting
+- [ ] Scheduled job to re-scrape pages
+- [ ] Better login system
