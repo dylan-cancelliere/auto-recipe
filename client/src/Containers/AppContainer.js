@@ -1,7 +1,37 @@
 import logo from '../logo.svg';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 import { setPantry, getPantry, selectPantryResults } from '../apiSlice';
+import RecipeCard from '../Components/RecipeCard';
+
+const renderRecipes = (data) => {
+	let components = [];
+	let keys = Object.keys(data);
+	let recipe;
+	for (let i = 0; i < 10; i++) {
+		recipe = data[keys[i]];
+		components.push(
+			<RecipeCard
+				image={recipe.thumbnail_url}
+				title={recipe.name}
+				link={`https://tasty.co/recipe/${recipe.object_name}`}
+				time={recipe.cook_time_minutes}
+				key={recipe.object_name}
+			/>
+		);
+	}
+
+	return <>{components}</>;
+};
+
+let renderRecipesBool = false;
+const showRenderedRecipes = (flag) => {
+	renderRecipesBool = flag;
+};
 
 export function AppContainer(user) {
 	const pantryResults = useSelector(selectPantryResults);
@@ -25,29 +55,45 @@ export function AppContainer(user) {
 					style={{ maxWidth: '50%' }}
 				/>
 			</header>
-			<p>Add ingredients to pantry</p>
-			<input
-				value={userInput}
-				onChange={(e) => setUserInput(e.target.value)}
-			/>
-			<button
-				onClick={() =>
-					dispatch(
-						setPantry({
-							user: user.user,
-							pantry: parseUserInput(userInput),
-						})
-					)
-				}>
-				Submit
-			</button>
-			<br /> <br /> <br /> <br />
-			<button onClick={() => dispatch(getPantry(user.user))}>
+			<form className='pantryForm' noValidate autoComplete='off'>
+				<h2>Add ingredients to pantry</h2>
+				<TextField
+					value={userInput}
+					onChange={(e) => setUserInput(e.target.value)}
+					label='Type here...'
+					color='secondary'
+				/>
+				<br />
+				<Button
+					variant='contained'
+					color='default'
+					size='small'
+					onClick={() =>
+						dispatch(
+							setPantry({
+								user: user.user,
+								pantry: parseUserInput(userInput),
+							})
+						)
+					}>
+					Submit
+				</Button>
+			</form>
+			<br />
+			<Button
+				onClick={() => {
+					showRenderedRecipes(false);
+					dispatch(getPantry(user.user));
+					showRenderedRecipes(true);
+				}}
+				variant='contained'
+				color='default'
+				size='small'>
 				Get recipes
-			</button>
-			<p style={{ paddingBottom: '100px' }}>
-				{JSON.stringify(pantryResults)}
-			</p>
+			</Button>
+			<br />
+			<br />
+			{renderRecipesBool && renderRecipes(pantryResults)}
 		</div>
 	);
 }
