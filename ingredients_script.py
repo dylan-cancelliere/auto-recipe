@@ -7,7 +7,7 @@ import requests
 def has_numbers(string):
     return any(char.isdigit() for char in string)
 
-
+# Not currently used
 def update_ingredients():
     url = 'https://world.openfoodfacts.org/ingredients.json'
     food = set()
@@ -112,13 +112,14 @@ def build_tasty_database(filename):
 
 
 def main():
-    data = read_file_to_set('ingredients_list.txt')
-    print(data)
+    tasty_recipe_scraper(tasty_ingredient_scraper())
+    recipes_raw_to_json('tasty_recipes_raw.txt')
+    
 
 
 if __name__ == '__main__':
-    # main()
+    main()
     # update_ingredients()
     # tasty_recipe_scraper(tasty_ingredient_scraper())
     # recipes_raw_to_json('tasty_recipes_raw.txt')
-    build_tasty_database('tasty_recipes_json.txt')
+    # build_tasty_database('tasty_recipes_json.txt')
