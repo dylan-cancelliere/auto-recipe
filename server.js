@@ -1,7 +1,7 @@
 const express = require('express');
-const https = require('https');
-const fs = require('fs');
 const app = express();
+const cors = require('cors');
+const fs = require('fs');
 const path = require('path');
 const port = process.env.PORT || 5000;
 
@@ -88,6 +88,8 @@ const [recipeMap, recipes] = buildRecipeMap(ingredientJson);
 const pantry = {};
 
 app.use(express.json());
+
+app.use(cors());
 
 app.put('/pantry/:user/:pantry', (req, res) => {
 	let data = req.params.pantry;

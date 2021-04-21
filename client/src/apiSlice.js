@@ -9,7 +9,7 @@ export const recipeSearch = createAsyncThunk(
 
 		let response = await fetch(url, {
 			method: 'GET',
-			headers: {},
+			headers: { Origin: 'localhost:3000/' },
 		}).catch((error) => {
 			console.error('Error:', error);
 		});
