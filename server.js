@@ -2,13 +2,14 @@ const express = require('express');
 const https = require('https');
 const fs = require('fs');
 const app = express();
+const path = require('path');
 const port = process.env.PORT || 5000;
 
 const getIngredients = () => {
 	let result, data;
 	try {
 		data = fs.readFileSync(
-			'/home/ripto/auto-recipe/tasty_ingredients.txt',
+			path.join(__dirname, 'tasty_ingredients.txt'),
 			'utf8'
 		);
 	} catch (error) {
