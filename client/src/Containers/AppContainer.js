@@ -11,6 +11,8 @@ import RecipeCard from '../Components/RecipeCard';
 const renderRecipes = (data) => {
 	let components = [];
 	let keys = Object.keys(data);
+	if (keys.length === 0)
+		return <p>No recipes found, try different ingredients</p>;
 	let recipe;
 	for (let i = 0; i < 10; i++) {
 		recipe = data[keys[i]];

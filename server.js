@@ -71,6 +71,8 @@ const sortRecipesByFrequency = (recipeArray) => {
 };
 
 const getPantryRecipes = (pantryData) => {
+	const ingredientData = buildRecipeArray(pantryData);
+	if (ingredientData.length === 0) return [];
 	const recipeArray = sortRecipesByFrequency(buildRecipeArray(pantryData));
 	const recipeData = {};
 
