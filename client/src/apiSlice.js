@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'http://autorecipe.csh.rit.edu:5000';
 
 export const recipeSearch = createAsyncThunk(
 	'api/searchRecipes',
